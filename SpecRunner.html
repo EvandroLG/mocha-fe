@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SpecRunner</title>
+      <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="b"></script><script src="c"></script><script src="d"></script><script src="e"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script>
+      mocha.ui('bdd');
+      mocha.reporter('html');
+      var expect = chai.expect;
+    </script>
+    {{ SPEC }}
+    <script>
+      if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+      else { mocha.run(); }
+    </script>
+  </body>
+</html>
