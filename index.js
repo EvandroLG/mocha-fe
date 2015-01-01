@@ -8,8 +8,8 @@ var server = require('./lib/server.js');
 var colors = require('colors');
 
 var params = process.argv.slice(2);
-var spec = params[0];
 var tpScript = '<script src="{{ VALUE }}"></script>';
+var spec = tpScript.replace('{{ VALUE }}', params[0]);
 var scripts = params.slice(1).map(function(value) {
   return tpScript.replace('{{ VALUE }}', value);
 });
@@ -19,7 +19,7 @@ fs.createReadStream('tmp/' + specRunner).pipe(fs.createWriteStream(specRunner));
 
 fs.readFile(specRunner, 'utf-8', function(err, data) {
   var code = data.replace('{{ SPEC }}', spec);
-  code = data.replace('{{ SCRIPTS }}', scripts.join(''));
+  code = code.replace('{{ SCRIPTS }}', scripts.join(''));
 
   fs.writeFile(specRunner, code);
 });
