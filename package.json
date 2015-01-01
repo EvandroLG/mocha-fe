@@ -9,8 +9,9 @@
   "author": "evandrolg",
   "license": "MIT",
   "dependencies": {
-    "phantomjs": "*",
+    "chai": "*",
+    "colors": "^1.0.3",
     "mocha": "*",
-    "chai": "*"
+    "phantomjs": "*"
   }
 }

@@ -5,6 +5,7 @@
 var fs = require('fs');
 var phantom = require('phantom');
 var server = require('./lib/server.js');
+var colors = require('colors');
 
 var params = process.argv.slice(2);
 var spec = params[0];
@@ -37,9 +38,9 @@ phantom.create(function (ph) {
           'duration': document.querySelector('#mocha-stats .duration').innerText
         };
       }, function(result) {
-        console.log(result.passes);
-        console.log(result.failures);
-        console.log(result.duration);
+        console.log(result.passes.green);
+        console.log(result.failures.red);
+        console.log(result.duration.cyan);
 
         ph.exit();
         process.kill();
