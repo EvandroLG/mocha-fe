@@ -31,9 +31,18 @@ phantom.create(function (ph) {
   ph.createPage(function (page) {
     page.open(url, function (status) {
       page.evaluate(function () { 
-        return document.title;
+        return {
+          'passes': document.querySelector('#mocha-stats .passes').innerText,
+          'failures': document.querySelector('#mocha-stats .failures').innerText,
+          'duration': document.querySelector('#mocha-stats .duration').innerText
+        };
       }, function(result) {
-        console.log(result);
+        console.log(result.passes);
+        console.log(result.failures);
+        console.log(result.duration);
+
+        ph.exit();
+        process.kill();
       });
     });
   });
