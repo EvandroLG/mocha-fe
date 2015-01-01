@@ -7,5 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "evandrolg",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "phantomjs": "*",
+    "mocha": "*",
+    "chai": "*"
+  }
 }

@@ -3,6 +3,8 @@
 'use strict';
 
 var fs = require('fs');
+var phantom = require('phantom');
+var server = require('./lib/server.js');
 
 var params = process.argv.slice(2);
 var spec = params[0];
@@ -19,4 +21,20 @@ fs.readFile(specRunner, 'utf-8', function(err, data) {
   code = data.replace('{{ SCRIPTS }}', scripts.join(''));
 
   fs.writeFile(specRunner, code);
+});
+
+server(9000);
+
+var url = 'http://localhost:9000/' + specRunner;
+
+phantom.create(function (ph) {
+  ph.createPage(function (page) {
+    page.open(url, function (status) {
+      page.evaluate(function () { 
+        return document.title;
+      }, function(result) {
+        console.log(result);
+      });
+    });
+  });
 });
