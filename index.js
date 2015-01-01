@@ -31,16 +31,37 @@ var url = 'http://localhost:9000/' + specRunner;
 phantom.create(function (ph) {
   ph.createPage(function (page) {
     page.open(url, function (status) {
-      page.evaluate(function () { 
+      page.evaluate(function () {
+        var $ = function(value) {
+          return document.querySelector(value);
+        };
+
+        var getResult = function() {
+          var list = document.querySelectorAll('#mocha-report ul > li');
+
+          return [].map.call(list, function(element) {
+            return element.classList.contains('pass') ? '✓ ' + element.innerText :
+                   '✖ ' + element.innerText;
+          });
+        };
+
         return {
-          'passes': document.querySelector('#mocha-stats .passes').innerText,
-          'failures': document.querySelector('#mocha-stats .failures').innerText,
-          'duration': document.querySelector('#mocha-stats .duration').innerText
+          'specName': $('#mocha-report h1').innerText.green,
+          'result': getResult(),
+          'passes': $('#mocha-stats .passes').innerText,
+          'failures': $('#mocha-stats .failures').innerText,
+          'duration': $('#mocha-stats .duration').innerText
         };
       }, function(result) {
-        console.log(result.passes.green);
-        console.log(result.failures.red);
-        console.log(result.duration.cyan);
+        console.log(result.specName);
+        
+        result.result.map(function(element) {
+          console.log(element);
+        });
+
+        console.log(' ' + result.passes);
+        console.log(' ' + result.failures);
+        console.log(' ' + result.duration);
 
         ph.exit();
         process.kill();

@@ -1,8 +1,9 @@
 <!doctype html>
-<html>
+<html >
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>SpecRunner</title>
-      <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
   </head>
   <body>
     <div id="mocha"></div>
@@ -16,8 +17,9 @@
     </script>
     {{ SPEC }}
     <script>
-      if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
-      else { mocha.run(); }
+      // if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+      // else { mocha.run(); }
+      mocha.run();
     </script>
   </body>
 </html>
