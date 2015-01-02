@@ -40,13 +40,15 @@ phantom.create(function (ph) {
           var list = document.querySelectorAll('#mocha-report ul > li');
 
           return [].map.call(list, function(element) {
-            return element.classList.contains('pass') ? '✓ ' + element.innerText :
+            var text = element.classList.contains('pass') ? '✓ ' + element.innerText :
                    '✖ ' + element.innerText;
+
+            return text.replace('‣', '').split('\n');
           });
         };
 
         return {
-          'specName': $('#mocha-report h1').innerText.green,
+          'specName': $('#mocha-report h1').innerText,
           'result': getResult(),
           'passes': $('#mocha-stats .passes').innerText,
           'failures': $('#mocha-stats .failures').innerText,
@@ -54,14 +56,17 @@ phantom.create(function (ph) {
         };
       }, function(result) {
         console.log(result.specName);
-        
         result.result.map(function(element) {
-          console.log(element);
+          var text = '  ' + element[0];
+          console.log(element.length);
+          text.indexOf('✓') >= 0 ? console.log(text.green) : 
+                                   console.log(text.red);
         });
 
-        console.log(' ' + result.passes);
-        console.log(' ' + result.failures);
-        console.log(' ' + result.duration);
+        console.log('\n');
+        console.log('  ' + result.passes.green);
+        console.log('  ' + result.failures.red);
+        console.log('  ' + result.duration);
 
         ph.exit();
         process.kill();
