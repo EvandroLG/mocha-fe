@@ -3,8 +3,8 @@
 'use strict';
 
 var colors = require('colors');
-var server = require('./lib/server.js');
 var SpecRunner = require('./lib/spec-runner.js');
+var server = require('./lib/server.js');
 var Browser = require('./lib/browser.js');
 
 var params = process.argv.slice(2);
