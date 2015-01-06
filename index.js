@@ -2,31 +2,23 @@
 
 'use strict';
 
-var fs = require('fs');
 var phantom = require('phantom');
-var server = require('./lib/server.js');
 var colors = require('colors');
+var server = require('./lib/server.js');
+var SpecRunner =require('./lib/spec-runner.js');
+
 
 var params = process.argv.slice(2);
-var tpScript = '<script src="{{ VALUE }}"></script>';
-var spec = tpScript.replace('{{ VALUE }}', params[0]);
+var script = '<script src="{{ VALUE }}"></script>';
+var spec = script.replace('{{ VALUE }}', params[0]);
 var scripts = params.slice(1).map(function(value) {
-  return tpScript.replace('{{ VALUE }}', value);
+  return script.replace('{{ VALUE }}', value);
 });
 
-var specRunner = 'SpecRunner.html';
-fs.createReadStream('tmp/' + specRunner).pipe(fs.createWriteStream(specRunner));
-
-fs.readFile(specRunner, 'utf-8', function(err, data) {
-  var code = data.replace('{{ SPEC }}', spec);
-  code = code.replace('{{ SCRIPTS }}', scripts.join(''));
-
-  fs.writeFile(specRunner, code);
-});
-
+SpecRunner.create(spec, scripts);
 server(9000);
 
-var url = 'http://localhost:9000/' + specRunner;
+var url = 'http://localhost:9000/' + SpecRunner.filename;
 
 phantom.create(function (ph) {
   ph.createPage(function (page) {
